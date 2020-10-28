@@ -1,0 +1,45 @@
+<mat-toolbar color="primary">
+    <input matInput (keyup)="onSearch($event)" placeholder="Search job">
+    <button mat-button (click)="logOut()">Log Out</button>
+  </mat-toolbar>
+
+<mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTab" dynamicHeight>
+    <mat-tab label="Jobs">
+        
+      <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let repo of jobs" rowHeight='200px'>
+          <mat-card class="card">
+            <mat-card-header class="title">
+              <mat-card-title>{{repo.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              {{repo.description}}
+            </mat-card-content>
+            <mat-card-actions>
+              <button *ngIf="repo.applyFlag === false" type="submit" class="submit11"  mat-raised-button (click)="apply(repo)">
+                <div class="submit-btn-text">Apply</div></button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
+    <!-- <mat-tab label="Candidate">
+      <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let repo of repos" rowHeight='200px'>
+          <mat-card class="card">
+            <mat-card-header class="title">
+              <mat-card-title>{{repo.full_name}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              {{repo.description}}
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-icon-button [color]="isJob(repo) ? 'accent' : 'primary'" (click)="onJob($event, repo)">
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab> -->
+  </mat-tab-group>

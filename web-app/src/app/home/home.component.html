@@ -1,0 +1,229 @@
+<mat-toolbar color="primary">
+    <input matInput (keyup)="onSearch($event)" placeholder="Search job using Id">
+    <button mat-button (click)="logOut()">Log Out</button>
+  </mat-toolbar>
+  
+  <mat-tab-group mat-align-tabs="center" [selectedIndex]="selectedTab" dynamicHeight>
+    <mat-tab label="Jobs List">
+        
+      <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let repo of jobs" rowHeight='200px'>
+          <mat-card class="card">
+            <mat-card-header class="title">
+              <mat-card-title>{{repo.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              {{repo.description}}
+            </mat-card-content>
+            <mat-card-actions>
+              <!-- <button mat-icon-button [color]="isJob(repo) ? 'accent' : 'primary'" (click)="onJob($event, repo)">
+                <mat-icon>apply</mat-icon>
+              </button> -->
+              <button type="submit" class="submit11"  mat-raised-button (click)="delete(repo)">
+                <div class="submit-btn-text">Delete</div></button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Create New Job">
+        <div class="notifi-card">
+            <div class="rad-heading">JOB POST</div>
+            <form [formGroup]="uploadForm" novalidate>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">Company Name</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 companyName row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.companyName.valid && uploadForm.controls.companyName.touched}">
+                      <input type="text" id="companyName" name="companyName" formControlName="companyName" class="form-control"
+                        placeholder="company Name*"></div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.companyName.hasError('required') && uploadForm.controls.companyName.touched)">
+                      Enter Your companyName</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title2">Title</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 title row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild " id="border-radius"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.title.valid && uploadForm.controls.title.touched}">
+                      
+                      <input type="text" id="title" name="title" formControlName="title" class="form-control"
+                        placeholder="title*">
+                    </div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.title.hasError('required') && uploadForm.controls.title.touched)">
+                      Enter title</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">JobType</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 jobType row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.jobType.valid && uploadForm.controls.jobType.touched}">
+                      <select class="select" class="form-control" formControlName="jobType" placeholder="select">
+                        <option value="1" selected disabled>
+                          Select
+                        </option>
+                        <option value="Full Time">
+                            Full Time
+                        </option>
+                        <option value="Part Time">
+                            Part Time
+                        </option>
+                      </select>
+                    </div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.jobType.hasError('required') && uploadForm.controls.jobType.touched)">
+                      Enter job Type</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title2">Salary</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 salary row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.salary.valid && uploadForm.controls.salary.touched}">
+                      <input type="text" id="salary" name="salary" formControlName="salary" class="form-control"
+                        placeholder="CTC*">
+                    </div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.salary.hasError('required') && uploadForm.controls.salary.touched)">
+                      Enter Salary</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">Description</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 description row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.description.valid && uploadForm.controls.description.touched}">
+                      <input type="text" id="description" name="description" formControlName="description" class="form-control"
+                        placeholder="Description*"></div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title2">Experience</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 description row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.experience.valid && uploadForm.controls.experience.touched}">
+                      <input type="text" id="experience" name="experience" formControlName="experience" class="form-control" placeholder="0- years*"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">Skills</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 skills row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.skills.valid && uploadForm.controls.skills.touched}">
+                      <input type="text" id="skills" name="skills" formControlName="skills" class="form-control"
+                        placeholder="Required skills*">
+                    </div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.skills.hasError('required') && uploadForm.controls.skills.touched)">
+                      Enter skills</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title2">Location</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 location row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.location.valid && uploadForm.controls.location.touched}">
+                      <select class="select" class="form-control" formControlName="location" placeholder="select">
+                        <option value="1" selected disabled>
+                          Select
+                        </option>
+                        <option value="Chennai">
+                          Chennai
+                        </option>
+                        <option value="Hydrabed">
+                            Hydrabed
+                        </option>
+                        <option value="AnyWhere">
+                            Any Where
+                        </option>
+                        <option value="NA">
+                          NA
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">Contact</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 contact row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.contact.valid && uploadForm.controls.contact.touched}">
+                      <input type="text" id="contact" name="contact" formControlName="contact" class="form-control"
+                        placeholder="Contact*"></div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.contact.hasError('required') && uploadForm.controls.contact.touched)">
+                      Enter Contact</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title2">Notice period</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 noticePeriod row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.noticePeriod.valid && uploadForm.controls.noticePeriod.touched}">
+                      <input type="text" id="noticePeriod" name="noticePeriod" formControlName="noticePeriod" class="form-control"
+                        placeholder="Days*"></div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.noticePeriod.hasError('required') && uploadForm.controls.noticePeriod.touched)">
+                      Enter Days Notice period</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 row">
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6 form-group row">
+                  <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 form-feild-title">Responsibilities</div>
+                  <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 responsibilities row">
+                    <div class="input-group col-lg-10 col-xs-10 col-sm-10 col-md-10 form-feild"
+                      [ngClass]="{'has-danger1':!uploadForm.controls.responsibilities.valid && uploadForm.controls.responsibilities.touched}">
+                      <input type="text" id="responsibilities" name="responsibilities" formControlName="responsibilities" class="form-control"
+                        placeholder="Responsibilities*"></div>
+                    <span class="message3"
+                      *ngIf="(uploadForm.controls.responsibilities.hasError('required') && uploadForm.controls.responsibilities.touched)">
+                      Enter Responsibilities</span>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-xs-6 col-sm-6 col-md-6form-group row">
+                    <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 submit1 row">
+                        <button type="submit" class="submit11" [disabled]="!uploadForm.valid" mat-raised-button (click)="uploadPostData()">
+                            <div class="submit-btn-text">POST</div></button>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </div>
+      <!-- <mat-grid-list cols="4">
+        <mat-grid-tile *ngFor="let repo of repos" rowHeight='200px'>
+          <mat-card class="card">
+            <mat-card-header class="title">
+              <mat-card-title>{{repo.full_name}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              {{repo.description}}
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-icon-button [color]="isJob(repo) ? 'accent' : 'primary'" (click)="onJob($event, repo)">
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list> -->
+    </mat-tab>
+  </mat-tab-group>
+
+
+  
+  
+  
+

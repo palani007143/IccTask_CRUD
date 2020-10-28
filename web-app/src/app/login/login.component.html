@@ -1,0 +1,17 @@
+<mat-card>
+  
+    <mat-card-content>
+      <select class="select" (change)="login2($event)" placeholder="select">
+        <option value="1" selected disabled>
+          Select
+        </option>
+        <option value="Recruiter">
+          Recruiter
+        </option>
+        <option value="Candidate">
+          Candidate
+        </option>
+      </select>
+      <button mat-button (click)="login()" color="primary">Login</button>
+    </mat-card-content>
+</mat-card>
